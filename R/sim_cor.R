@@ -8,7 +8,7 @@
 #' @param r Desired size of the correlation. Only takes values between -1
 #'          and 1.
 #' @param shuffles Specifies how many times vector2 should be shuffled at
-#'                 every step of the function. Defaults to 100.
+#'                 every step of the function. Defaults to 1000.
 #' @param N Optional: Size of the two vectors to be created.
 #' @param MW1 Optional: mean of the first vector to be drawn from a normal
 #'            distribution.
@@ -32,7 +32,7 @@
 #' @author Juli Tkotz \email{juliane.tkotz@@hhu.de}
 #' @export
 #'
-sim_cor <- function(vector1 = NULL, vector2 = NULL, r, shuffles = 100, N = NULL, MW1 = NULL,
+sim_cor <- function(vector1 = NULL, vector2 = NULL, r, shuffles = 1000, N = NULL, MW1 = NULL,
                     SD1 = NULL, MW2 = NULL, SD2 = NULL) {
   # a) validate input
   # b) determine function mode (vector or parameter)
