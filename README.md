@@ -7,7 +7,6 @@ Create correlations of a specified size by reshuffling a vector to (not) match a
 ```R
 devtools::install_github("einGlasRotwein/cmonCorr")
 
-# load package
 library("cmonCorr")
 ```
 
@@ -47,15 +46,6 @@ example1$data %>%
 vec1 <- 1:200
 
 example2 <- sim_cor(vector1 = vec1, r = .42, shuffles = 1000)
-
-library(tidyverse)
-example2$data %>% 
-  ggplot(aes(x = x, y = y)) +
-  geom_point(colour = "#0c2c76", alpha = .6) +
-  geom_smooth(method = "lm", colour = "#ff4600") +
-  labs(title = paste("desired correlation", example2$desired_correlation, " - ",
-                     "actual correlation", round(example2$actual_correlation, 2))) +
-  theme(plot.title = element_text(hjust = .5))
 ```
 
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example2.png)
@@ -66,30 +56,12 @@ Takes parameters for one or two vectors as input. If only parameters for one are
 
 ```R
 example3 <- sim_cor(N = 50, M1 = 40, SD1 = 4, M2 = 40, SD2 = 10, r = .81, shuffles = 2000)
-
-library(tidyverse)
-example3$data %>% 
-  ggplot(aes(x = x, y = y)) +
-  geom_point(colour = "#0c2c76", alpha = .6) +
-  geom_smooth(method = "lm", colour = "#ff4600") +
-  labs(title = paste("desired correlation", example3$desired_correlation, " - ",
-                     "actual correlation", round(example3$actual_correlation, 2))) +
-  theme(plot.title = element_text(hjust = .5))
 ```
 
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example3.png)
 
 ```R
 example4 <- sim_cor(N = 20, M1 = 40, SD1 = 4, r = -1, shuffles = 50)
-
-library(tidyverse)
-example4$data %>% 
-  ggplot(aes(x = x, y = y)) +
-  geom_point(colour = "#0c2c76", alpha = .6) +
-  geom_smooth(method = "lm", colour = "#ff4600") +
-  labs(title = paste("desired correlation", example4$desired_correlation, " - ",
-                     "actual correlation", round(example4$actual_correlation, 2))) +
-  theme(plot.title = element_text(hjust = .5))
 ```
 
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example4.png)
