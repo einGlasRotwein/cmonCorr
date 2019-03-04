@@ -68,6 +68,10 @@ in \code{arglist}.
 cor.52 <- sim_cor_param(100, "normal", list(mean = 10, sd = 1),
                         r = .52, shuffles = 1000)
 
+cor.8 <- sim_cor_param(100, "normal", list(mean = 10, sd = 1),
+                        r = -.8, shuffles = 100,
+                        "unif", list(min = 1, max = 2))
+
 }
 \author{
 Juli Tkotz \email{juliane.tkotz@hhu.de}
