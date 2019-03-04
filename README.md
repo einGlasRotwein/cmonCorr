@@ -10,10 +10,6 @@ devtools::install_github("einGlasRotwein/cmonCorr")
 library("cmonCorr")
 ```
 
-# Credit
-
-Internal functions for input validation adapted from [prmisc](https://github.com/m-Py/prmisc) by [Martin Papenberg](https://github.com/m-Py).
-
 # Examples
 
 ## sim_cor_vec
@@ -88,3 +84,5 @@ But when you look at the subgroups, it's a different story.
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/examplesimps2.png)
 
 Note that the correlation between group means is still 0.995, while the overall correlation between x and y is only 0.325.
+
+Credit: Internal functions for input validation adapted from [prmisc](https://github.com/m-Py/prmisc).
