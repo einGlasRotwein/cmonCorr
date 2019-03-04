@@ -7,8 +7,7 @@
 sim_cor_vec(vector1, r, shuffles = 1000, vector2 = NULL)
 }
 \arguments{
-\item{vector1}{Optional: a vector for which a correlated vector should
-be created.}
+\item{vector1}{A vector for which a correlated vector should be created.}
 
 \item{r}{Desired size of the correlation. Only takes values between -1
 and 1.}
