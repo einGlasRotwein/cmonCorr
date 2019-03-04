@@ -85,4 +85,6 @@ But when you look at the subgroups, it's a different story.
 
 Note that the correlation between group means is still 0.995, while the overall correlation between x and y is only 0.325.
 
+---
+
 Credit: Internal functions for input validation adapted from [prmisc](https://github.com/m-Py/prmisc).
