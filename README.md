@@ -1,6 +1,6 @@
 # cmonCorr
 
-Create correlations of a specified size by reshuffling a vector to (not) match another one. Can be used for visualisation and comparison of correlations and exploration of their properties.
+Create correlations of a specified size by reshuffling a vector to (not) match another one. Can be used for visualisation and comparison of correlations and exploration of their properties. Based on linear correlations (pearson).
 
 # Installation
 

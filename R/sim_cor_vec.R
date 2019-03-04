@@ -21,6 +21,8 @@
 #' the other reshuffled along with additional information like mean and SD of
 #' the two vectors as well as the desired and actual correlation.
 #'
+#' Based on linear correlations (pearson).
+#'
 #' @examples
 #'
 #' vec1 <- 1:100

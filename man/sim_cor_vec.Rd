@@ -31,6 +31,8 @@ depending on how close to a sufficient solution the result is.
 Returns the two vectors with the desired correlation (one left untouched),
 the other reshuffled along with additional information like mean and SD of
 the two vectors as well as the desired and actual correlation.
+
+Based on linear correlations (pearson).
 }
 \examples{
 

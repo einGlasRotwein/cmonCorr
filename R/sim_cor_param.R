@@ -31,6 +31,8 @@
 #' the other reshuffled along with additional information like mean and SD of
 #' the two vectors as well as the desired and actual correlation.
 #'
+#' Based on linear correlations (pearson).
+#'
 #' Vectors of a desired size are drawn from a specified distribution.
 #' Parameters for the distribution like mean, standard deviation or min/max
 #' are provided as arguments in a list. Experimental danger zone, as there
