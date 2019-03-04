@@ -68,3 +68,23 @@ example4 <- sim_cor_param(100, "normal", list(mean = 10, sd = 1), r = -.8, shuff
 ```
 
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example4.png)
+
+## simpsons_paradox
+
+Uses the sim_cor functions to create a Simpson's Paradox. That is, first a correlation of subgroup means is created, then subgroups are created according to generated means and then correlated within each other. If the initial correlation of the subgroup means and the correlation within the subgroups are of different signs, a "full" Simpson's Paradox is created.
+
+**WARNING:** This is a bit experimental and not every parameter combination will result in a satisfying result. The correlation between subgroup means is still present, but overall correlation between x and y may substantially differ from that. Nevertheless, with different values for `r_tot` and `r_sub` provided, the result should always be data where the overall correlation differs from the one within subgroups.
+
+```R
+example5 <- simpsons_paradox(r_tot = 1, r_sub = -.6, ngroups = 4, nsubgroups = 30)
+```
+
+The overall correlation looks like this ...
+
+![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example5.png)
+
+But when you look at the subgroups, it's a different story.
+
+![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example6.png)
+
+Note that the correlation between group means is still 0.995, while the overall correlation between x and y is only 0.325.
