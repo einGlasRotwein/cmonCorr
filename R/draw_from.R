@@ -5,8 +5,8 @@
 #' @param dist A character string determining the distribution the sample
 #'             should be taken from. Can be set to 'normal' or 'unif'. See
 #'             details.
-#' @param arglist A list of arguments provided to the distribution function.
-#'                See details.
+#' @param arglist A list of arguments provided to the distribution function
+#'                that is used to create the first vector. See details.
 #'
 #' @details
 #'
