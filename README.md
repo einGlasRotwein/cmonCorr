@@ -11,6 +11,10 @@ devtools::install_github("einGlasRotwein/cmonCorr")
 library("cmonCorr")
 ```
 
+# Credit
+
+Internal functions for input validation adapted from [prmisc](https://github.com/m-Py/prmisc) by [Martin Papenberg](https://github.com/m-Py).
+
 # Examples
 
 ## sim_cor
@@ -30,8 +34,8 @@ example1 <- sim_cor(vector1 = vec1, vector2 = vec2, r = .2, shuffles = 100)
 library(tidyverse)
 example1$data %>% 
   ggplot(aes(x = x, y = y)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
+  geom_point(colour = "#0c2c76", alpha = .6) +
+  geom_smooth(method = "lm", colour = "#ff4600") +
   labs(title = paste("desired correlation", example1$desired_correlation, " - ",
                      "actual correlation", round(example1$actual_correlation, 2))) +
   theme(plot.title = element_text(hjust = .5))
@@ -47,8 +51,8 @@ example2 <- sim_cor(vector1 = vec1, r = .42, shuffles = 1000)
 library(tidyverse)
 example2$data %>% 
   ggplot(aes(x = x, y = y)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
+  geom_point(colour = "#0c2c76", alpha = .6) +
+  geom_smooth(method = "lm", colour = "#ff4600") +
   labs(title = paste("desired correlation", example2$desired_correlation, " - ",
                      "actual correlation", round(example2$actual_correlation, 2))) +
   theme(plot.title = element_text(hjust = .5))
@@ -61,13 +65,13 @@ example2$data %>%
 Takes parameters for one or two vectors as input. If only parameters for one are provided, the second vector is created from the parameters of the first one.
 
 ```R
-example3 <- sim_cor(N = 50, MW1 = 40, SD1 = 4, MW2 = 40, SD2 = 10, r = .81, shuffles = 1000)
+example3 <- sim_cor(N = 50, M1 = 40, SD1 = 4, M2 = 40, SD2 = 10, r = .81, shuffles = 2000)
 
 library(tidyverse)
 example3$data %>% 
   ggplot(aes(x = x, y = y)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
+  geom_point(colour = "#0c2c76", alpha = .6) +
+  geom_smooth(method = "lm", colour = "#ff4600") +
   labs(title = paste("desired correlation", example3$desired_correlation, " - ",
                      "actual correlation", round(example3$actual_correlation, 2))) +
   theme(plot.title = element_text(hjust = .5))
@@ -76,13 +80,13 @@ example3$data %>%
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example3.png)
 
 ```R
-example4 <- sim_cor(N = 20, MW1 = 40, SD1 = 4, r = -1, shuffles = 1000)
+example4 <- sim_cor(N = 20, M1 = 40, SD1 = 4, r = -1, shuffles = 50)
 
 library(tidyverse)
 example4$data %>% 
   ggplot(aes(x = x, y = y)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
+  geom_point(colour = "#0c2c76", alpha = .6) +
+  geom_smooth(method = "lm", colour = "#ff4600") +
   labs(title = paste("desired correlation", example4$desired_correlation, " - ",
                      "actual correlation", round(example4$actual_correlation, 2))) +
   theme(plot.title = element_text(hjust = .5))
