@@ -81,10 +81,10 @@ example5 <- simpsons_paradox(r_tot = 1, r_sub = -.6, ngroups = 4, nsubgroups = 3
 
 The overall correlation looks like this ...
 
-![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example5.png)
+![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/examplesimps1.png)
 
 But when you look at the subgroups, it's a different story.
 
-![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example6.png)
+![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/examplesimps2.png)
 
 Note that the correlation between group means is still 0.995, while the overall correlation between x and y is only 0.325.
