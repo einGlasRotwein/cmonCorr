@@ -62,10 +62,13 @@
 #' data, a \code{group} column containing the subgroup each case belongs
 #' to and the correlation within each subgroup.
 #'
-#' Depending on \code{r_tot}, \code{r_sub} and standard deviations, the
-#' original correlation provided via \code{r_tot} might be substantially
-#' reduced. Toy around with it and see which parameters yield the 'best'
-#' Simpson's Paradox.
+#' Note that the overall correlation of the data is not identical with the
+#' correlation between subgroup means as specified via \code{r_tot}. In
+#' fact, the overall correlation between x and y may substantially differ
+#' from that of the subgroup means. Nevertheless, with different values for
+#' \code{r_tot} and \code{r_sub} provided, the result should always be data
+#' where the overall correlation differs from the one within subgroups. Toy
+#' around with it and see which parameters yield the 'best' Simpson's Paradox.
 #'
 #' @examples
 #'
