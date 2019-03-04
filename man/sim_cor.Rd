@@ -5,7 +5,7 @@
 \title{Create correlation of specified size}
 \usage{
 sim_cor(vector1 = NULL, vector2 = NULL, r, shuffles = 1000,
-  N = NULL, MW1 = NULL, SD1 = NULL, MW2 = NULL, SD2 = NULL)
+  N = NULL, M1 = NULL, SD1 = NULL, M2 = NULL, SD2 = NULL)
 }
 \arguments{
 \item{vector1}{Optional: a vector for which a correlated vector should
@@ -22,17 +22,17 @@ every step of the function. Defaults to 1000.}
 
 \item{N}{Optional: Size of the two vectors to be created.}
 
-\item{MW1}{Optional: mean of the first vector to be drawn from a normal
+\item{M1}{Optional: mean of the first vector to be drawn from a normal
 distribution.}
 
 \item{SD1}{Optional: standard deviation of the first vector to be
 drawn from a normal distribution.}
 
-\item{MW2}{Optional: mean of the second vector to be drawn from a
-normal distribution. Takes value of MW1 if not provided.}
+\item{M2}{Optional: mean of the second vector to be drawn from a
+normal distribution. Takes value of M1 if not provided.}
 
 \item{SD2}{Optional: standard deviation of the second vector to be
-drawn from a normal distribution. Takes value of MW1 if not
+drawn from a normal distribution. Takes value of M1 if not
 provided.}
 }
 \description{
@@ -43,7 +43,7 @@ Description yet to come.
 }
 \examples{
 
-cor.7 <- sim_cor(N = 50, MW1 = 10, SD1 = 1, MW2 = 4, SD2 = 2, r = .7,
+cor.7 <- sim_cor(N = 50, M1 = 10, SD1 = 1, M2 = 4, SD2 = 2, r = .7,
                  shuffles = 1000)
 
 }
