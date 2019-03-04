@@ -1,59 +1,39 @@
 
-#' Create correlation of specified size
+#' Create correlation of specified size (vector input)
 #'
 #' @param vector1 Optional: a vector for which a correlated vector should
 #'                be created.
 #' @param vector2 Optional: a vector that should be reshuffled in order to
-#'                create a correlation with vector1.
+#'                create a correlation with vector1. If not provided,
+#'                vector1 will we duplicated as vector2.
 #' @param r Desired size of the correlation. Only takes values between -1
 #'          and 1.
 #' @param shuffles Specifies how many times vector2 should be shuffled at
 #'                 every step of the function. Defaults to 1000.
-#' @param N Optional: Size of the two vectors to be created.
-#' @param M1 Optional: mean of the first vector to be drawn from a normal
-#'            distribution.
-#' @param SD1 Optional: standard deviation of the first vector to be
-#'            drawn from a normal distribution.
-#' @param M2 Optional: mean of the second vector to be drawn from a
-#'            normal distribution. Takes value of M1 if not provided.
-#' @param SD2 Optional: standard deviation of the second vector to be
-#'            drawn from a normal distribution. Takes value of M1 if not
-#'            provided.
 #'
 #' @details
 #'
-#' Description yet to come.
+#' Reshuffles a vector until a correlation of desired size with another vector
+#' is created. Does so by taking the shuffled version of the vector that comes
+#' closest to the desired correlation, then only reshuffles part of the data,
+#' depending on how close to a sufficient solution the result is.
+#'
+#' Returns the two vectors with the desired correlation (one left untouched),
+#' the other reshuffled along with additional information like mean and SD of
+#' the two vectors as well as the desired and actual correlation.
 #'
 #' @examples
 #'
-#' cor.7 <- sim_cor(N = 50, M1 = 10, SD1 = 1, M2 = 4, SD2 = 2, r = .7,
-#'                  shuffles = 1000)
+#' vec1 <- 1:100
+#' vec2 <- 101:200
+#' cor.7 <- sim_cor(vec1, vec2, r = .7, shuffles = 1000)
 #'
 #' @author Juli Tkotz \email{juliane.tkotz@@hhu.de}
+#' @export
 #'
-sim_cor <- function(vector1 = NULL, vector2 = NULL, r, shuffles = 1000, N = NULL, M1 = NULL,
-                    SD1 = NULL, M2 = NULL, SD2 = NULL) {
-  # a) validate input
-  # b) determine function mode (vector or parameter)
-  # c) replace all missing arguments for second vector with arguments for first vector
-  validation <- val_input_cor(vector1, vector2, r, shuffles, N, M1, SD1, M2, SD2)
-
-  # see c): take all arguments from validation, in case replacements have taken place
-  function_mode <- validation[[1]]
-  vector1 <- validation[[2]]
-  vector2 <- validation[[3]]
-  N <- validation[[4]]
-  M1 <- validation[[5]]
-  SD1 <- validation[[6]]
-  N2 <- validation[[7]]
-  M2 <- validation[[8]]
-  SD2 <- validation[[9]]
-
-  # generate vectors from parameters
-  if(function_mode == "parameter") {
-    vector1 <- rnorm(N, M1, SD1)
-    vector2 <- rnorm(N2, M2, SD2)
-  }
+sim_cor_vec <- function(vector1, vector2 = NULL, r, shuffles = 1000) {
+  # validate input and duplicate vector1 as vector2, if vector2 not provided
+  vector2 <- val_input_cor(vector1, vector2, r, shuffles)
 
   ## SHUFFLE
   vector2 <- shuffle_in_steps(vector1, vector2, r, shuffles)
@@ -63,10 +43,6 @@ sim_cor <- function(vector1 = NULL, vector2 = NULL, r, shuffles = 1000, N = NULL
   correlation <- cor(vector1, vector2)
 
   # draw parameters from vectors for user information to be stored in output
-  # for both, vector mode and parameter mode
-  # a) vector mode: informs user about parameters of provided vectors
-  # b) parameter mode: determines actual parameters of generated vectors (because parameters
-  # might differ slightly from the ones provided as arguments)
   N1 <- length(vector1)
   M1 <- mean(vector1)
   SD1 <- sd(vector1)
@@ -77,46 +53,25 @@ sim_cor <- function(vector1 = NULL, vector2 = NULL, r, shuffles = 1000, N = NULL
   # store the two vectors and information on parameters of both vectors
   output <- list(data = data.frame(x = vector1, y = vector2), N1 = N1, M1 = M1, SD1 = SD1,
                  N2 = N2, M2 = M2, SD2 = SD2, desired_correlation = r,
-                 actual_correlation = correlation, shuffles = shuffles,
-                 function_mode = function_mode)
+                 actual_correlation = correlation, shuffles = shuffles)
 
   return(output)
 }
 
 # check if input is valid and determine if vector or parameter mode
-val_input_cor <- function(vector1, vector2, r, shuffles, N, M1, SD1, M2, SD2) {
-  ## GENERAL
-  N2 <- N
+val_input_cor <- function(vector1, vector2, r, shuffles) {
+  ## VECTORS
+  validate_input(vector1, "vector1", "numeric")
 
-  if(r > 1 | r < -1) {
-    stop("r can only take values between -1 and 1")
-  }
+  if(argument_exists(vector2)) {
+    validate_input(vector2, "vector2", "numeric")
 
-  validate_input(r, "r", "numeric", 1)
-
-  validate_input(shuffles, "shuffles", "numeric", 1, TRUE, TRUE)
-
-  ## VECTOR MODE
-  if(argument_exists(vector1)) {
-    # if at least one of N, M1, SD1, N2, M2, SD2 is not NULL
-    if(!all(sapply(list(N, M1, SD1, N2, M2, SD2), is.null))){
-      stop("vector1 and vector2 must not be combined with N, M1, SD1, M2 or SD2")
+    if(length(vector2) != length(vector1)) {
+      stop("vector1 and vector2 must be of the same length")
     }
-
-    validate_input(vector1, "vector1", "numeric")
-
-    if(argument_exists(vector2)) {
-      validate_input(vector2, "vector2", "numeric")
-
-      if(length(vector2) != length(vector1)) {
-        stop("vector1 and vector2 must be of the same length")
-      }
-    } else {
-      vector2 <- vector1
-      warning("vector2 has been taken from vector1")
-    }
-
-    function_mode <- "vector"
+  } else {
+    vector2 <- vector1
+    warning("vector2 has been taken from vector1")
   }
 
   if(argument_exists(vector2)) {
@@ -125,72 +80,17 @@ val_input_cor <- function(vector1, vector2, r, shuffles, N, M1, SD1, M2, SD2) {
     }
   }
 
-  ## PARAMETER MODE
-  ## GROUP 1
-  if(argument_exists(N)) {
-    if(sum(sapply(list(M1, SD1), is.null)) != 0) {
-      stop("M1 and SD1 must be provided if N is used")
-    }
-
-    validate_input(N, "N", "numeric", 1, TRUE, TRUE)
-    function_mode <- "parameter"
-
-    # DEALING WITH MISSING ARGUMENTS FOR SECOND GROUP
-    # If at least one of WM2 and SD2 is not provided - take missing argument from N, M2
-    # and/or SD1, respectively
-    # But warn the user
-    if(sum(sapply(list(M2, SD2), is.null) != 0)) {
-      replacements <- rep(NA, 2)
-
-      if (is.null(M2)) {
-        M2 <- M1
-        replacements[2] <- "M"
-      }
-
-      if (is.null(SD2)) {
-        SD2 <- SD1
-        replacements[3] <- "SD"
-      }
-      warning(paste0((replacements[!is.na(replacements)]), 2, collapse = " and "),
-              " taken from ",
-              paste0((replacements[!is.na(replacements)]), 1, collapse = " and "))
-    }
+  ## R
+  if(r > 1 | r < -1) {
+    stop("r can only take values between -1 and 1")
   }
 
-  # error when M1 or SD1 are provided without N
-  if(argument_exists(M1)) {
-    if(sum(sapply(list(N, SD1), is.null)) != 0){
-      stop("N and SD1 must be provided if M1 is used")
-    }
+  validate_input(r, "r", "numeric", 1)
 
-    validate_input(M1, "M1", "numeric", 1)
-  }
+  ## SHUFFLES
+  validate_input(shuffles, "shuffles", "numeric", 1, TRUE, TRUE)
 
-  if(argument_exists(SD1)) {
-    if(sum(sapply(list(N, M1), is.null)) != 0){
-      stop("N and M1 must be provided if SD1 is used")
-    }
-
-    validate_input(SD1, "SD1", "numeric", 1)
-  }
-
-  ## GROUP 2
-  # if any parameters for second group are provided, N must exist
-  if(sum(sapply(list(M2, SD2), is.null)) == 0) {
-    if(is.null(N)){
-      stop("N must be provided if group 2 parameters are used")
-    }
-  }
-
-  if(argument_exists(M2)) {
-    validate_input(M2, "M2", "numeric", 1)
-  }
-
-  if(argument_exists(SD2)) {
-    validate_input(SD2, "SD2", "numeric", 1)
-  }
-
-  return(list(function_mode, vector1, vector2, N, M1, SD1, N2, M2, SD2))
+  return(vector2)
 }
 
 # Takes two vectors and desired correlation as arguments
