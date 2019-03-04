@@ -126,8 +126,6 @@ shuffle_in_steps <- function(vector1, vector2, r, shuffles) {
     while_limit <- while_limit + 1
   }
 
-  warning(" - Reshuffling runs in round 1: ", while_limit)
-
   # step3:
   # as long as difference from desired correlation bigger than .5:
   # reshuffle part of the data (partial_shuffle)
@@ -141,8 +139,6 @@ shuffle_in_steps <- function(vector1, vector2, r, shuffles) {
     temp_diff <- shuffle$diff
     while_limit <- while_limit + 1
   }
-
-  warning(" - Reshuffling runs in round 2: ", while_limit)
 
   # step4:
   # as long as difference from desired correlation bigger than .4:
@@ -158,8 +154,6 @@ shuffle_in_steps <- function(vector1, vector2, r, shuffles) {
     while_limit <- while_limit + 1
   }
 
-  warning(" - Reshuffling runs in round 3: ", while_limit)
-
   # step5:
   # as long as difference from desired correlation bigger than .2:
   # reshuffle part of the data (partial_shuffle)
@@ -173,8 +167,6 @@ shuffle_in_steps <- function(vector1, vector2, r, shuffles) {
     temp_diff <- shuffle$diff
     while_limit <- while_limit + 1
   }
-
-  warning(" - Reshuffling runs in round 4: ", while_limit)
 
   # step6:
   # as long as difference from desired correlation bigger than .05:
@@ -190,8 +182,6 @@ shuffle_in_steps <- function(vector1, vector2, r, shuffles) {
     while_limit <- while_limit + 1
   }
 
-  warning(" - Reshuffling runs in round 5: ", while_limit)
-
   # step7:
   # as long as difference from desired correlation bigger than .05:
   # reshuffle part of the data (partial_shuffle)
@@ -205,8 +195,6 @@ shuffle_in_steps <- function(vector1, vector2, r, shuffles) {
     temp_diff <- shuffle$diff
     while_limit <- while_limit + 1
   }
-
-  warning(" - Reshuffling runs in round 6: ", while_limit)
 
   return(vector2)
 }
