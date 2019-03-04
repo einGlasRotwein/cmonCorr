@@ -3,13 +3,13 @@
 #'
 #' @param vector1 Optional: a vector for which a correlated vector should
 #'                be created.
-#' @param vector2 Optional: a vector that should be reshuffled in order to
-#'                create a correlation with vector1. If not provided,
-#'                vector1 will we duplicated as vector2.
 #' @param r Desired size of the correlation. Only takes values between -1
 #'          and 1.
 #' @param shuffles Specifies how many times vector2 should be shuffled at
 #'                 every step of the function. Defaults to 1000.
+#' @param vector2 Optional: a vector that should be reshuffled in order to
+#'                create a correlation with vector1. If not provided,
+#'                vector1 will we duplicated as vector2.
 #'
 #' @details
 #'
@@ -26,12 +26,12 @@
 #'
 #' vec1 <- 1:100
 #' vec2 <- 101:200
-#' cor.7 <- sim_cor(vec1, vec2, r = .7, shuffles = 1000)
+#' cor.7 <- sim_cor(vector1 = vec1, vector2 = vec2, r = .7, shuffles = 1000)
 #'
 #' @author Juli Tkotz \email{juliane.tkotz@@hhu.de}
 #' @export
 #'
-sim_cor_vec <- function(vector1, vector2 = NULL, r, shuffles = 1000) {
+sim_cor_vec <- function(vector1, r, shuffles = 1000, vector2 = NULL) {
   # validate input and duplicate vector1 as vector2, if vector2 not provided
   vector2 <- val_input_cor(vector1, vector2, r, shuffles)
 

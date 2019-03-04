@@ -4,21 +4,21 @@
 \alias{sim_cor_vec}
 \title{Create correlation of specified size (vector input)}
 \usage{
-sim_cor_vec(vector1, vector2 = NULL, r, shuffles = 1000)
+sim_cor_vec(vector1, r, shuffles = 1000, vector2 = NULL)
 }
 \arguments{
 \item{vector1}{Optional: a vector for which a correlated vector should
 be created.}
-
-\item{vector2}{Optional: a vector that should be reshuffled in order to
-create a correlation with vector1. If not provided,
-vector1 will we duplicated as vector2.}
 
 \item{r}{Desired size of the correlation. Only takes values between -1
 and 1.}
 
 \item{shuffles}{Specifies how many times vector2 should be shuffled at
 every step of the function. Defaults to 1000.}
+
+\item{vector2}{Optional: a vector that should be reshuffled in order to
+create a correlation with vector1. If not provided,
+vector1 will we duplicated as vector2.}
 }
 \description{
 Create correlation of specified size (vector input)
@@ -37,7 +37,7 @@ the two vectors as well as the desired and actual correlation.
 
 vec1 <- 1:100
 vec2 <- 101:200
-cor.7 <- sim_cor(vec1, vec2, r = .7, shuffles = 1000)
+cor.7 <- sim_cor(vector1 = vec1, vector2 = vec2, r = .7, shuffles = 1000)
 
 }
 \author{
