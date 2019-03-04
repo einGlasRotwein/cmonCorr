@@ -50,6 +50,8 @@ example2 <- sim_cor_vec(vector1 = vec1, r = .42, shuffles = 1000)
 
 ## sim_cor_vec
 
+**WARNING:** Experimental danger zone, as there will not always be error messages when parameters in arglist are not provided correctly. When in doubt, generate vectors to be correlated outside the function and then use `sim_cor_vec`.
+
 Reshuffles a vector to create a correlation of specified size with another one.
 
 Takes parameters for one or two vectors as input. If only parameters for one are provided, the second vector is created from the parameters of the first one.
