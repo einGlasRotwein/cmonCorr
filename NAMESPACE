@@ -3,3 +3,4 @@
 export(sim_cor_param)
 export(sim_cor_vec)
 export(simpsons_mean)
+export(simpsons_paradox)

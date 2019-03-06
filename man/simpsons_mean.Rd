@@ -14,9 +14,7 @@ same as the overall correlation across subgroups (see
 details). If you want a specified overall correlation,
 use \code{\link{simpsons_paradox}}.}
 
-\item{r_sub}{Pearson correlation within the subgroups. Actual
-correlation within subgroups will be very close to the
-one provided in the \code{r_sub}.}
+\item{r_sub}{Pearson correlation within the subgroups.}
 
 \item{ngroups}{Number of subgroups present in the data. Must not be
 provided when a vector of subgroup means is used
@@ -89,7 +87,7 @@ around with it and see which parameters yield the 'best' Simpson's Paradox.
 }
 \examples{
 
-simpson <- simpsons_paradox(r_mean = .9, r_sub = -.6, ngroups = 4, nsubgroups = 30)
+simpson <- simpsons_mean(r_mean = .9, r_sub = -.6, ngroups = 4, nsubgroups = 30)
 
 }
 \author{
