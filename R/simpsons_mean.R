@@ -96,10 +96,13 @@ simpsons_mean <- function(r_mean, r_sub, ngroups = NULL, nsubgroups = 50,
   sd_subgroups_y <- validation$sd_subgroups_y
 
   # correlate subgroup means
-  means_cor <- cor_submeans(means_subgroups, means_subgroups_y, r_mean)$data
+  means_cor <-
+    sim_cor_vec(vector1 = means_subgroups, r = r_mean, vector2 = means_subgroups_y)$data
 
   # correlate subgroups within each other
-  subgroups <- cor_subgroups(ngroups, nsubgroups, r_sub, means_cor, sd_subgroups, sd_subgroups_y)
+  subgroups <- cor_subgroups(ngroups, nsubgroups, r = r_sub, means_x = means_cor$x,
+                             means_y = means_cor$y, sd_x = sd_subgroups,
+                             sd_y = sd_subgroups_y)
 
   # bind all subgroups in a data.frame
   simpar <- Reduce(function(...) rbind(...), subgroups)
@@ -182,31 +185,4 @@ validate_sim_mean <- function(r_mean, r_sub, ngroups, nsubgroups, means_subgroup
                      means_subgroups_y = means_subgroups_y, sd_subgroups_y = sd_subgroups_y)
 
   return(validation)
-}
-
-# correlate the means of the subgroups
-cor_submeans <- function(means_subgroups, means_subgroups_y, r_mean) {
-  means_cor <- sim_cor_vec(vector1 = means_subgroups, r = r_mean, vector2 = means_subgroups_y)
-
-  return(means_cor)
-}
-
-# correlate subgroups within each other
-cor_subgroups <- function(ngroups, nsubgroups, r_sub, means_cor, sd_subgroups, sd_subgroups_y) {
-  # list storing dataframes with subgroups
-  subgroups <- list()
-
-  # vector storing actual correlations of subgroups
-  sub_cors <- rep(NA, ngroups)
-
-  for(i in 1:ngroups) {
-    temp <- sim_cor_param(nsubgroups, "normal", list(mean = means_cor$x[i], sd = sd_subgroups[i]),
-                          r_sub, dist2 = "normal",
-                          arglist2 = list(mean = means_cor$y[i], sd = sd_subgroups_y[i]))
-    sub_cors[i] <- temp$actual_correlation
-    temp <- data.frame(x = temp$data$x, y = temp$data$y, group = i, sub_cor = sub_cors[i])
-    subgroups[[i]] <- temp
-  }
-
-  return(subgroups)
 }
