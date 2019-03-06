@@ -5,18 +5,14 @@
 \title{Create a Simpson's Paradox}
 \usage{
 simpsons_paradox(r_tot, r_sub, ngroups = NULL, nsubgroups = 50,
-  means_subgroups = NULL, sd_subgroups = 1, means_subgroups_y = NULL,
-  sd_subgroups_y = NULL)
+  means_subgroups = NULL, sd_subgroups = 1, sd_subgroups_y = NULL,
+  scaling = 1, ymin = NULL)
 }
 \arguments{
-\item{r_tot}{Initial Pearson correlation of group medians. Will be
-altered during the shuffling process within subgroups,
-so consider it as the general direction of the overall
-correlation in the data. See details.}
+\item{r_tot}{Desired Pearson correlation of the overall data. Will
+not always be met, see details.}
 
-\item{r_sub}{Pearson correlation within the subgroups. Actual
-correlation within subgroups will be very close to the
-one provided in the \code{r_sub}.}
+\item{r_sub}{Pearson correlation within the subgroups.}
 
 \item{ngroups}{Number of subgroups present in the data. Must not be
 provided when a vector of subgroup means is used
@@ -35,43 +31,48 @@ latter case, each subgroup will have the standard
 deviation specified by the integer. Defaults to
 sd = 1 for each group.}
 
-\item{means_subgroups_y}{An optional vector providing the y-mean for each
-subgroup. Can only be used when
-\code{means_subgroups} is provided. Per default,
-same means as in \code{means_subgroups} are used.
-Note that the order of y-means will be shuffled
-in order to create a correlation.}
-
 \item{sd_subgroups_y}{Standard deviation for the y value of each subgroup.
 Can be either a vector containing standard
 deviations for each subgroup or an integer. In the
 latter case, each subgroup will have the standard
 deviation specified by the integer. Per default
 identical to \code{sd_subgroups}.}
+
+\item{scaling}{Optional argument determining how much the y-coordinates of
+subgroups shold be shifted in order to create the desired
+overall correlation. The larger \code{scaling} is, the larger
+will be the overall correlation. That is, if scaling is set
+to 0, the subgroup coordinates will not be shifted at all.
+Note that the presence of subgroups will be easier to detect
+if \code{scaling} is large. Still, the actual overall will be
+smaller than specified in \code{r_tot}. Defaults to 1.}
+
+\item{ymin}{Optional argument determining the smalles y-coordinate present
+in your data.}
 }
 \description{
 Create a Simpson's Paradox
 }
 \details{
-Creates a Simpson's Paradox by creating a correlation between the means
-of two variables x and y of a number of subgroups. For this step, the
-function \code{\link{sim_cor_vec}} is used.
-
-Then creates a correlation within subgroups using
-\code{\link{sim_cor_param}} based on the means created in the first step.
-If the two correlations specified for each step (\code{r_tot} and
-\code{r_sub}, respectively) have opposite directions, a Simpson's Paradox
-is created.
+Creates a Simpson's Paradox by creating a correlation within a number of
+subgroups and then altering the groups' y-coordinates to create a
+correlation of the overall data. For the first step, the function
+\code{\link{sim_cor_param}} is used. The second step relies on the
+function \code{\link{sim_cor_vec}}. If the two correlations specified for
+each step (\code{r_sub} and \code{r_tot}, respectively) have opposite
+directions, a Simpson's Paradox is created.
 
 One of either \code{ngroups} or \code{mean_subgroups} needs to be provided.
 That is, if the number of subgroups is specified via \code{ngroups}, the
 x-means for each group will be \code{1:ngroups}. If the x-means for each
 subgroup are specified via the vector \code{means_subgroups}, the number
 of subgroups equals the number of means provided in the
-\code{means_subgroups}. You can specify the y-means of each subgroup via
-\code{means_subgroups_y}, but since the y-means will be shuffled in oder
-to create a correlation across the whole data, this rather sets a range
-of values for the y-means instead of specific y-means for each group.
+\code{means_subgroups}. Note that you cannot specify the y-means of each
+group since they will be altered in order to create the desired overall
+correlation. You can, however, specify the smallest y-coordinate present
+in your data via \code{ymin}. All data points will be shifted along the
+y-axis, perserving the correlations of the overall data and the subgroups.
+That way, you have some degree of control over the range of the y-axis.
 
 Based on linear correlations (pearson).
 
@@ -79,17 +80,24 @@ Returns a \code{data.frame} that holds the x and y coordinates of the
 data, a \code{group} column containing the subgroup each case belongs
 to and the correlation within each subgroup.
 
-Note that the overall correlation of the data is not identical with the
-correlation between subgroup means as specified via \code{r_tot}. In
-fact, the overall correlation between x and y may substantially differ
-from that of the subgroup means. Nevertheless, with different values for
-\code{r_tot} and \code{r_sub} provided, the result should always be data
-where the overall correlation differs from the one within subgroups. Toy
-around with it and see which parameters yield the 'best' Simpson's Paradox.
+Note that due to the correlations within subgroups, the overall
+correlation as specified in \code{r_tot} will not always be achieved.
+You can toy around with the group mean parameters and the scaling to
+get more satisfying results, but when subgroup correlations and
+overall correlation differ widely, this will be harder to achieve.
+In this case, the presence of subgroups will usually also be easier
+to detect in the visualisation of the data.
+
+If you want to target the correlation between subgroup means, use
+\code{\link{simpsons_mean}}.
 }
 \examples{
 
-simpson <- simpsons_paradox(r_tot = .9, r_sub = -.6, ngroups = 4, nsubgroups = 30)
+simpson <- simpsons_paradox(r_tot = -.8, r_sub = .4, ngroups = 5, nsubgroups = 40,
+                            scaling = 2)
+
+simpson2 <- simpsons_paradox(r_tot = .4, r_sub = .-7, ngroups = 4, nsubgroups = 100,
+                             scaling = 3, ymin = 10)
 
 }
 \author{
