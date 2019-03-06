@@ -1,10 +1,10 @@
 
-#' Create a Simpson's Paradox
+#' Create a Simpson's Paradox (based on correlated subgroup means)
 #'
-#' @param r_tot Initial Pearson correlation of group medians. Will be
-#'              altered during the shuffling process within subgroups,
-#'              so consider it as the general direction of the overall
-#'              correlation in the data. See details.
+#' @param r_mean Initial Pearson correlation of group medians. Not the
+#'               same as the overall correlation across subgroups (see
+#'               details). If you want a specified overall correlation,
+#'               use \code{\link{simpsons_paradox}}.
 #' @param r_sub Pearson correlation within the subgroups. Actual
 #'              correlation within subgroups will be very close to the
 #'              one provided in the \code{r_sub}.
@@ -42,7 +42,7 @@
 #'
 #' Then creates a correlation within subgroups using
 #' \code{\link{sim_cor_param}} based on the means created in the first step.
-#' If the two correlations specified for each step (\code{r_tot} and
+#' If the two correlations specified for each step (\code{r_mean} and
 #' \code{r_sub}, respectively) have opposite directions, a Simpson's Paradox
 #' is created.
 #'
@@ -63,29 +63,30 @@
 #' to and the correlation within each subgroup.
 #'
 #' Note that the overall correlation of the data is not identical with the
-#' correlation between subgroup means as specified via \code{r_tot}. In
+#' correlation between subgroup means as specified via \code{r_mean}. In
 #' fact, the overall correlation between x and y may substantially differ
 #' from that of the subgroup means. Nevertheless, with different values for
-#' \code{r_tot} and \code{r_sub} provided, the result should always be data
+#' \code{r_mean} and \code{r_sub} provided, the result should always be data
 #' where the overall correlation differs from the one within subgroups. Toy
 #' around with it and see which parameters yield the 'best' Simpson's Paradox.
 #'
 #' @examples
 #'
-#' simpson <- simpsons_paradox(r_tot = .9, r_sub = -.6, ngroups = 4, nsubgroups = 30)
+#' simpson <- simpsons_paradox(r_mean = .9, r_sub = -.6, ngroups = 4, nsubgroups = 30)
 #'
 #' @author Juli Tkotz \email{juliane.tkotz@@hhu.de}
+#' @export
 #'
 
-simpsons_paradox <- function(r_tot, r_sub, ngroups = NULL, nsubgroups = 50,
+simpsons_mean <- function(r_mean, r_sub, ngroups = NULL, nsubgroups = 50,
                              means_subgroups = NULL, sd_subgroups = 1,
                              means_subgroups_y = NULL,
                              sd_subgroups_y = NULL) {
   # validate input and update variables that have been replaced in the process
-  validation <- validate_sim_par(r_tot, r_sub, ngroups, nsubgroups, means_subgroups,
+  validation <- validate_sim_mean(r_mean, r_sub, ngroups, nsubgroups, means_subgroups,
                                  sd_subgroups, means_subgroups_y, sd_subgroups_y)
 
-  r_tot <- validation$r_tot
+  r_mean <- validation$r_mean
   r_sub <- validation$r_sub
   ngroups <- validation$ngroups
   nsubgroups <- validation$nsubgroups
@@ -95,7 +96,7 @@ simpsons_paradox <- function(r_tot, r_sub, ngroups = NULL, nsubgroups = 50,
   sd_subgroups_y <- validation$sd_subgroups_y
 
   # correlate subgroup means
-  means_cor <- cor_submeans(means_subgroups, means_subgroups_y, r_tot)$data
+  means_cor <- cor_submeans(means_subgroups, means_subgroups_y, r_mean)$data
 
   # correlate subgroups within each other
   subgroups <- cor_subgroups(ngroups, nsubgroups, r_sub, means_cor, sd_subgroups, sd_subgroups_y)
@@ -107,14 +108,14 @@ simpsons_paradox <- function(r_tot, r_sub, ngroups = NULL, nsubgroups = 50,
   return(simpar)
 }
 
-validate_sim_par <- function(r_tot, r_sub, ngroups, nsubgroups, means_subgroups, sd_subgroups,
+validate_sim_mean <- function(r_mean, r_sub, ngroups, nsubgroups, means_subgroups, sd_subgroups,
                  means_subgroups_y, sd_subgroups_y){
-  validate_input(r_tot, "r_tot", "numeric", 1)
+  validate_input(r_mean, "r_mean", "numeric", 1)
   validate_input(r_sub, "r_sub", "numeric", 1)
   validate_input(nsubgroups, "nsubgroups", "numeric", 1, TRUE, TRUE)
 
-  if(r_tot > 1 | r_tot < -1) {
-    stop("r_tot can only take values between -1 and 1")
+  if(r_mean > 1 | r_mean < -1) {
+    stop("r_mean can only take values between -1 and 1")
   }
 
   if(r_sub > 1 | r_sub < -1) {
@@ -176,7 +177,7 @@ validate_sim_par <- function(r_tot, r_sub, ngroups, nsubgroups, means_subgroups,
     sd_subgroups_y <- sd_subgroups
   }
 
-  validation <- list(r_tot = r_tot, r_sub = r_sub, ngroups = ngroups, nsubgroups = nsubgroups,
+  validation <- list(r_mean = r_mean, r_sub = r_sub, ngroups = ngroups, nsubgroups = nsubgroups,
                      means_subgroups = means_subgroups, sd_subgroups = sd_subgroups,
                      means_subgroups_y = means_subgroups_y, sd_subgroups_y = sd_subgroups_y)
 
@@ -184,8 +185,8 @@ validate_sim_par <- function(r_tot, r_sub, ngroups, nsubgroups, means_subgroups,
 }
 
 # correlate the means of the subgroups
-cor_submeans <- function(means_subgroups, means_subgroups_y, r_tot) {
-  means_cor <- sim_cor_vec(vector1 = means_subgroups, r = r_tot, vector2 = means_subgroups_y)
+cor_submeans <- function(means_subgroups, means_subgroups_y, r_mean) {
+  means_cor <- sim_cor_vec(vector1 = means_subgroups, r = r_mean, vector2 = means_subgroups_y)
 
   return(means_cor)
 }

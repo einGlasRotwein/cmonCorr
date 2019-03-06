@@ -38,7 +38,7 @@ Based on linear correlations (pearson).
 
 vec1 <- 1:100
 vec2 <- 101:200
-cor.7 <- sim_cor(vector1 = vec1, vector2 = vec2, r = .7, shuffles = 1000)
+cor.7 <- sim_cor_vec(vector1 = vec1, vector2 = vec2, r = .7, shuffles = 1000)
 
 }
 \author{
