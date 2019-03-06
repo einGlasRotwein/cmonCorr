@@ -65,12 +65,13 @@ example4 <- sim_cor_param(100, "normal", list(mean = 10, sd = 1), r = -.8, shuff
 
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/example4.png)
 
-## simpsons_paradox
+## Simpson's Paradox
 
-Uses the sim_cor functions to create a Simpson's Paradox. That is, first a correlation of subgroup means is created, then subgroups are created according to generated means and then correlated within each other. If the initial correlation of the subgroup means and the correlation within the subgroups are of different signs, a "full" Simpson's Paradox is created.
+Uses the sim_cor functions to create a Simpson's Paradox. There are two versions of functions: simpsons_means creates an overall correlation by targetting the means of subgroups. simpsons_paradox shifts the subgroups along the y-axis and takes a scaling parameter specifying the degree of the shift as well as a parameter determining the smalles y-coordinate of the data. If the initial correlation provided (`r_tot` in `simpsons_paradox`) or the correlation of subgroup means (`r_means` in `simpsons_means`) have a different sign than the correlation within the subgroups, a "full" Simpson's Paradox is created.
 
-**WARNING:** This is a bit experimental and not every parameter combination will result in a satisfying result. The correlation between subgroup means is still present, but overall correlation between x and y may substantially differ from that. Nevertheless, with different values for `r_tot` and `r_sub` provided, the result should always be data where the overall correlation differs from the one within subgroups.
+**NOTE:** This is a bit experimental and not every parameter combination will result in a satisfying result. The correlation between subgroup means is easy to specify, but overall correlation between x and y may substantially differ from the desired outcome. There are limits to the overall correlation when the correlation within subgroups is strong. Nevertheless, a result where the overall correlation differs from the one within subgroups should always be achievable.
 
+### simpsons_mean
 ```R
 example5 <- simpsons_paradox(r_tot = 1, r_sub = -.6, ngroups = 4, nsubgroups = 30)
 ```
@@ -84,6 +85,22 @@ But when you look at the subgroups, it's a different story.
 ![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/examplesimps2.png)
 
 Note that the correlation between group means is still 0.995, while the overall correlation between x and y is only 0.325.
+
+### simpsons_paradox
+
+```R
+example6 <- simpsons_paradox(r_tot = .4, r_sub = -.7, means_subgroups = c(0, 1, -1, 1),
+                             nsubgroups = 100, scaling = 4, ymin = 10)
+```
+Overall correlation:
+
+![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/examplesimps3.png)
+
+Subgroup correlations
+
+![](https://raw.githubusercontent.com/einGlasRotwein/cmonCorr/master/examples/examplesimps4.png)
+
+Note that the correlation between group means is 0.728, while the overall correlation between x and y is only 0.257. Also note that, as specified via `ymin`, the smallest y-coordinate is 10.
 
 ---
 
