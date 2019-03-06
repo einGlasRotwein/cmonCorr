@@ -88,14 +88,16 @@ overall correlation differ widely, this will be harder to achieve.
 In this case, the presence of subgroups will usually also be easier
 to detect in the visualisation of the data.
 
-In any case, the correlation between the means of each subgroup will
-be close to \code{r_tot}. If you want to target this correlation
-directly, use \code{\link{simpsons_mean}}.
+If you want to target the correlation between subgroup means, use
+\code{\link{simpsons_mean}}.
 }
 \examples{
 
 simpson <- simpsons_paradox(r_tot = -.8, r_sub = .4, ngroups = 5, nsubgroups = 40,
                             scaling = 2)
+
+simpson2 <- simpsons_paradox(r_tot = .4, r_sub = .-7, ngroups = 4, nsubgroups = 100,
+                             scaling = 3, ymin = 10)
 
 }
 \author{
