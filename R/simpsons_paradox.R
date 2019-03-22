@@ -116,11 +116,12 @@ simpsons_paradox <- function(r_tot, r_sub, ngroups = NULL, nsubgroups = 50,
 
   means_cor <- sim_cor_vec(vector1 = means_subgroups, r = r_tot, vector2 = means_subgroups)$data
 
-  for(i in 1:ngroups) {
+  for (i in 1:ngroups) {
     simpar$y[simpar$group == i] <- simpar$y[simpar$group == i] + (means_cor$y[i] * scaling)
+    simpar$x[simpar$group == i] <- simpar$x[simpar$group == i] + (means_cor$x[i] * scaling)
   }
 
-  if(argument_exists(ymin)) {
+  if (argument_exists(ymin)) {
     # find current minimum of y-coordinates in simpar
     curr_min <- min(simpar$y)
 
