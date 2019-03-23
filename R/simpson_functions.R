@@ -1,4 +1,4 @@
-#' Functions used by the simpsons paradox functions
+#' Functions used by the simpsons paradox function
 #'
 #' @return NULL
 #'

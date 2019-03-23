@@ -23,15 +23,14 @@
 #'                       latter case, each subgroup will have the standard
 #'                       deviation specified by the integer. Per default
 #'                       identical to \code{sd_subgroups}.
-#' @param scaling Optional argument determining how much the y-coordinates of
-#'                subgroups shold be shifted in order to create the desired
-#'                overall correlation. The larger \code{scaling} is, the larger
-#'                will be the overall correlation. That is, if scaling is set
-#'                to 0, the subgroup coordinates will not be shifted at all.
-#'                Note that the presence of subgroups will be easier to detect
-#'                if \code{scaling} is large. Still, the actual overall will be
-#'                smaller than specified in \code{r_tot}. Defaults to 1.
-#' @param ymin Optional argument determining the smalles y-coordinate present
+#' @param scaling Argument determining how much the x- and y-coordinates of
+#'                subgroups should be shifted in order to create the desired
+#'                overall correlation. The larger \code{scaling} is, the
+#'                larger will be the overall correlation. That is, if scaling
+#'                is set to 0, the subgroup coordinates  will not be shifted
+#'                at all. Note that the presence of subgroups will be easier
+#'                to notice if \code{scaling} is large. Defaults to 1.
+#' @param ymin Optional argument determining the smallest y-coordinate present
 #'             in your data.
 #'
 #' @details
@@ -67,11 +66,6 @@
 #' You can toy around with the group mean parameters and the scaling to
 #' get more satisfying results, but when subgroup correlations and
 #' overall correlation differ widely, this will be harder to achieve.
-#' In this case, the presence of subgroups will usually also be easier
-#' to detect in the visualisation of the data.
-#'
-#' If you want to target the correlation between subgroup means, use
-#' \code{\link{simpsons_mean}}.
 #'
 #' @examples
 #'
