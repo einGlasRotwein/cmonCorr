@@ -85,6 +85,7 @@ But within subgroups, it's a different story ...
 Note that the correlation between group means is 0.783, while the overall correlation between x and y is only 0.526. Subgroup correlations are: -0.688; -0.684; -0.695; -0.681; -0.687.
 
 Also note that, as specified via `ymin`, the smallest y-coordinate is 10.
+
 ---
 
 Credit: Internal functions for input validation adapted from [prmisc](https://github.com/m-Py/prmisc).
