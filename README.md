@@ -77,9 +77,11 @@ example5 <- simpsons_paradox(r_tot = .8, r_sub = -.7,
                              nsubgroups = 100, scaling = 3, ymin = 10)
 ```
 Overall correlation:
+
 ![](./examples/simpson1.png)
 
 But within subgroups, it's a different story ...
+
 ![](./examples/simpson2.png)
 
 Note that the correlation between group means is 0.783, while the overall correlation between x and y is only 0.526. Subgroup correlations are: -0.688; -0.684; -0.695; -0.681; -0.687.
